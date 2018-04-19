@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Lightworks version 14.5.0.0 -->
 <xmeml version="5">
-   <sequence id="E30R21LW">
+   <sequence id="E30R21M4">
       <name>Sequence #1</name>
       <duration>7500</duration>
       <rate>
@@ -195,6 +195,50 @@
                   </sourcetrack>
                </clipitem>
                <clipitem>
+                  <name>exhale-sigh_fkHQMu4d</name>
+                  <duration>30</duration>
+                  <rate>
+                     <ntsc>FALSE</ntsc>
+                     <timebase>25</timebase>
+                  </rate>
+                  <in>0</in>
+                  <out>30</out>
+                  <start>55</start>
+                  <end>85</end>
+                  <masterclipid>E30R21CH</masterclipid>
+                  <file id="E30R21CH">
+                  </file>
+                  <filter>
+                     <effect>
+                        <name>Audio Levels</name>
+                        <effectid>audiolevels</effectid>
+                        <effectcategory>audiolevels</effectcategory>
+                        <effecttype>audiolevels</effecttype>
+                        <mediatype>audio</mediatype>
+                        <parameter>
+                           <name>Level</name>
+                           <parameterid>level</parameterid>
+                           <keyframe>
+                              <when>0</when>
+                              <value>1.00000000</value>
+                           </keyframe>
+                           <keyframe>
+                              <when>30</when>
+                              <value>1.00000000</value>
+                           </keyframe>
+                           <keyframe>
+                              <when>30</when>
+                              <value>1.00000000</value>
+                           </keyframe>
+                        </parameter>
+                     </effect>
+                  </filter>
+                  <sourcetrack>
+                     <mediatype>audio</mediatype>
+                     <trackindex>1</trackindex>
+                  </sourcetrack>
+               </clipitem>
+               <clipitem>
                   <name>crunches_G1YX02Vu</name>
                   <duration>58</duration>
                   <rate>
@@ -283,6 +327,50 @@
                   <out>30</out>
                   <start>19</start>
                   <end>49</end>
+                  <masterclipid>E30R21CH</masterclipid>
+                  <file id="E30R21CH">
+                  </file>
+                  <filter>
+                     <effect>
+                        <name>Audio Levels</name>
+                        <effectid>audiolevels</effectid>
+                        <effectcategory>audiolevels</effectcategory>
+                        <effecttype>audiolevels</effecttype>
+                        <mediatype>audio</mediatype>
+                        <parameter>
+                           <name>Level</name>
+                           <parameterid>level</parameterid>
+                           <keyframe>
+                              <when>0</when>
+                              <value>1.00000000</value>
+                           </keyframe>
+                           <keyframe>
+                              <when>30</when>
+                              <value>1.00000000</value>
+                           </keyframe>
+                           <keyframe>
+                              <when>30</when>
+                              <value>1.00000000</value>
+                           </keyframe>
+                        </parameter>
+                     </effect>
+                  </filter>
+                  <sourcetrack>
+                     <mediatype>audio</mediatype>
+                     <trackindex>2</trackindex>
+                  </sourcetrack>
+               </clipitem>
+               <clipitem>
+                  <name>exhale-sigh_fkHQMu4d</name>
+                  <duration>30</duration>
+                  <rate>
+                     <ntsc>FALSE</ntsc>
+                     <timebase>25</timebase>
+                  </rate>
+                  <in>0</in>
+                  <out>30</out>
+                  <start>55</start>
+                  <end>85</end>
                   <masterclipid>E30R21CH</masterclipid>
                   <file id="E30R21CH">
                   </file>
