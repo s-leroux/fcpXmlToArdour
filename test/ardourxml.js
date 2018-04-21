@@ -73,5 +73,17 @@ describe("ArdourXML", function() {
     });
 
   });
+  describe("newRoute()", function() {
+
+    it("should returns a new route element", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const route = doc.newStereoRoute();
+          assert.equal(route.tagName, 'route');
+        });
+    });
+
+  });
 
 });

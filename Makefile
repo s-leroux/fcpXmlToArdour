@@ -1,5 +1,5 @@
-ardour:
+one:
 	rm -rf Ardour.test
 	mkdir Ardour.test
-	cp min.ardour Ardour.test
-	Mixbus32C4 Ardour.test/min.ardour
+	cp one*.ardour Ardour.test/
+	Mixbus32C4 Ardour.test/one*.ardour
