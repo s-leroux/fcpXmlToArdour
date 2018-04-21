@@ -33,6 +33,44 @@ describe("ArdourXML", function() {
         });
     });
 
+    it("should gather document ids", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.property(doc.ids, '55');
+          assert.property(doc.ids, '220');
+          assert.property(doc.ids, '2743');
+          assert.property(doc.ids, '2590');
+        });
+    });
+
+  });
+  describe("newID()", function() {
+
+    it("should return a new unused id", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          for(let i =0; i < 1000; ++i) {
+            const oldIDs = doc.ids.slice();
+            const id = doc.newID();
+
+            assert.typeOf(id, 'Number');
+            assert.notProperty(oldIDs, id);
+          }
+        });
+    });
+
+    it("should register newly created ids", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          for(let i =0; i < 1000; ++i) {
+            const id = doc.newID();
+            assert.property(doc.ids, id);
+          }
+        });
+    });
 
   });
 
