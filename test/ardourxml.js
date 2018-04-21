@@ -73,6 +73,45 @@ describe("ArdourXML", function() {
     });
 
   });
+  describe("makeRouteName()", function() {
+    const NEWROUTENAME='SOME-ROUTE-NAME';
+
+    it("should leave new route names as-is", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.equal(doc.makeRouteName(NEWROUTENAME), NEWROUTENAME);
+        });
+    });
+
+    it("should add index on duplicate route name", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.equal(doc.makeRouteName(NEWROUTENAME), NEWROUTENAME);
+          assert.equal(doc.makeRouteName(NEWROUTENAME), NEWROUTENAME + "1");
+        });
+    });
+
+    it("should add index on duplicate route name (existing)", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.equal(doc.makeRouteName('MyAudioStereoTrack'), 'MyAudioStereoTrack1');
+          assert.equal(doc.makeRouteName('MyAudioStereoTrack'), 'MyAudioStereoTrack2');
+        });
+    });
+
+    it("should increment route name with index", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.equal(doc.makeRouteName(NEWROUTENAME + "10"), NEWROUTENAME + "10");
+          assert.equal(doc.makeRouteName(NEWROUTENAME + "10"), NEWROUTENAME + "11");
+        });
+    });
+
+  });
   describe("newRoute()", function() {
 
     it("should returns a new route element", function() {
@@ -104,6 +143,19 @@ describe("ArdourXML", function() {
           doc.newStereoRoute('A');
           doc.newStereoRoute('B');
           fs.writeFileAsync("test/out/two-tracks.ardour", doc)
+        });
+    });
+
+    it("should NOT create two tracks with the same name", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const r1 = doc.newStereoRoute('A');
+          const r2 = doc.newStereoRoute('A');
+          const r3 = doc.newStereoRoute('A');
+          assert.notEqual(r1.attribs.name, r2.attribs.name);
+          assert.notEqual(r1.attribs.name, r3.attribs.name);
+          assert.notEqual(r2.attribs.name, r3.attribs.name);
         });
     });
 
