@@ -80,7 +80,20 @@ describe("ArdourXML", function() {
         .then(AXML.load)
         .then((doc) => {
           const route = doc.newStereoRoute();
-          assert.equal(route.tagName, 'route');
+
+          assert.equal(route.tagName, 'Route');
+        });
+    });
+
+    it("should register the new route", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const oldLength = doc.doc('Routes').children().length;
+          const route = doc.newStereoRoute();
+          const newLength = doc.doc('Routes').children().length;
+
+          assert.equal(newLength, oldLength+1);
         });
     });
 
