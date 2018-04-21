@@ -1,19 +1,19 @@
-<Route id="#{doc.newID()}" name="Audio" default-type="audio" strict-io="1" active="1" denormal-protection="0" meter-point="MeterPostFader" meter-type="MeterPeak" saved-meter-point="MeterPostFader" mode="Normal">
+<Route id="#{doc.newID()}" name="#{routeName}" default-type="audio" strict-io="1" active="1" denormal-protection="0" meter-point="MeterPostFader" meter-type="MeterPeak" saved-meter-point="MeterPostFader" mode="Normal">
   <PresentationInfo order="1" flags="AudioTrack,OrderSet" color="2927117055"/>
   <Controllable name="solo" id="#{doc.newID()}" flags="Toggle,RealTime" value="0" self-solo="0" soloed-by-upstream="0" soloed-by-downstream="0"/>
   <Controllable name="solo-iso" id="#{doc.newID()}" flags="Toggle,RealTime" value="0" solo-isolated="0"/>
   <Controllable name="solo-safe" id="#{doc.newID()}" flags="Toggle" value="0" solo-safe="0"/>
-  <IO name="Audio" id="#{doc.newID()}" direction="Input" default-type="audio" user-latency="0">
-    <Port type="audio" name="Audio/audio_in 1">
+  <IO name="#{routeName}" id="#{doc.newID()}" direction="Input" default-type="audio" user-latency="0">
+    <Port type="audio" name="#{routeName}/audio_in 1">
       <Connection other="system:capture_1"/>
     </Port>
-    <Port type="audio" name="Audio/audio_in 2">
+    <Port type="audio" name="#{routeName}/audio_in 2">
       <Connection other="system:capture_2"/>
     </Port>
   </IO>
-  <IO name="Audio" id="#{doc.newID()}" direction="Output" default-type="audio" user-latency="0">
-    <Port type="audio" name="Audio/audio_out 1"/>
-    <Port type="audio" name="Audio/audio_out 2"/>
+  <IO name="#{routeName}" id="#{doc.newID()}" direction="Output" default-type="audio" user-latency="0">
+    <Port type="audio" name="#{routeName}/audio_out 1"/>
+    <Port type="audio" name="#{routeName}/audio_out 2"/>
   </IO>
   <MuteMaster mute-point="PostFader,Listen,Main" muted="0"/>
   <Controllable name="mute" id="#{doc.newID()}" flags="Toggle,RealTime" value="0"/>
@@ -374,8 +374,8 @@
     <Controllable name="MB 12 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="51"/>
     <Controllable name="MB 12 Pan" id="#{doc.newID()}" flags="" value="0" parameter="52"/>
   </Processor>
-  <Processor id="#{doc.newID()}" name="meter-Audio" active="1" user-latency="0" type="meter"/>
-  <Processor id="#{doc.newID()}" name="Audio" active="1" user-latency="0" own-input="1" own-output="0" output="Audio" type="main-outs" role="Main">
+  <Processor id="#{doc.newID()}" name="meter-#{routeName}" active="1" user-latency="0" type="meter"/>
+  <Processor id="#{doc.newID()}" name="#{routeName}" active="1" user-latency="0" own-input="1" own-output="0" output="#{routeName}" type="main-outs" role="Main">
     <PannerShell bypassed="1" user-panner="" linked-to-route="1"/>
     <Pannable>
       <Controllable name="pan-azimuth" id="#{doc.newID()}" flags="" value="0.5"/>
@@ -399,5 +399,5 @@
   <Controllable name="monitor" id="#{doc.newID()}" flags="RealTime" value="0" monitoring=""/>
   <Controllable name="rec-safe" id="#{doc.newID()}" flags="Toggle,RealTime" value="0"/>
   <Controllable name="rec-enable" id="#{doc.newID()}" flags="Toggle,RealTime" value="0"/>
-  <Diskstream flags="Recordable" playlist="Audio.1" name="Audio" id="#{doc.newID()}" speed="1" capture-alignment="Automatic" record-safe="0" channels="2"/>
+  <Diskstream flags="Recordable" playlist="#{routeName}.1" name="#{routeName}" id="#{doc.newID()}" speed="1" capture-alignment="Automatic" record-safe="0" channels="2"/>
 </Route>

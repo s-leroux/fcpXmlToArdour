@@ -97,6 +97,16 @@ describe("ArdourXML", function() {
         });
     });
 
+    it("should create valid Ardour file (check externally please)", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          doc.newStereoRoute('A');
+          doc.newStereoRoute('B');
+          fs.writeFileAsync("test/out/two-tracks.ardour", doc)
+        });
+    });
+
   });
 
 });
