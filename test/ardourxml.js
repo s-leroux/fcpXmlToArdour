@@ -136,16 +136,6 @@ describe("ArdourXML", function() {
         });
     });
 
-    it("should create valid Ardour file (check externally please)", function() {
-      return fs.readFileAsync("test/data/sample.ardour")
-        .then(AXML.load)
-        .then((doc) => {
-          doc.newStereoRoute('A');
-          doc.newStereoRoute('B');
-          fs.writeFileAsync("test/out/two-tracks.ardour", doc)
-        });
-    });
-
     it("should NOT create two tracks with the same name", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
@@ -159,6 +149,58 @@ describe("ArdourXML", function() {
         });
     });
 
+  });
+  describe("Route instances", function() {
+
+    it("should have a name property", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const r1 = doc.newStereoRoute('A');
+
+          assert.equal(r1.name, 'A');
+        });
+    });
+
+    it("should have an id property", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+
+          const oldIDs = doc.ids.slice();
+          const r1 = doc.newStereoRoute('A');
+
+          assert.notProperty(oldIDs, r1.id);
+          assert.property(doc.ids, r1.id);
+        });
+    });
+
+    it("should find playlist by name", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+
+          const oldIDs = doc.ids.slice();
+          const route = doc.newStereoRoute('A');
+          const playlist = route.playlist('A.1');
+
+          assert.equal(playlist.name, 'A.1');
+        });
+    });
+
+  });
+
+
+  it("should create valid Ardour file (check externally please)", function() {
+    return fs.readFileAsync("test/data/sample.ardour")
+      .then(AXML.load)
+      .then((doc) => {
+        const r1 = doc.newStereoRoute('A');
+        const r2 = doc.newStereoRoute('B');
+        const p11 = r1.playlist('A.1');
+        const p12 = r1.playlist('A.2');
+        fs.writeFileAsync("test/out/two-tracks.ardour", doc)
+      });
   });
 
 });
