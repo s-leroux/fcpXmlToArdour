@@ -114,13 +114,13 @@ describe("ArdourXML", function() {
   });
   describe("newRoute()", function() {
 
-    it("should returns a new route element", function() {
+    it("should returns a Route object", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
           const route = doc.newStereoRoute();
 
-          assert.equal(route.tagName, 'Route');
+          assert.equal(route.constructor.name, 'Route');
         });
     });
 
@@ -153,9 +153,9 @@ describe("ArdourXML", function() {
           const r1 = doc.newStereoRoute('A');
           const r2 = doc.newStereoRoute('A');
           const r3 = doc.newStereoRoute('A');
-          assert.notEqual(r1.attribs.name, r2.attribs.name);
-          assert.notEqual(r1.attribs.name, r3.attribs.name);
-          assert.notEqual(r2.attribs.name, r3.attribs.name);
+          assert.notEqual(r1.name, r2.name);
+          assert.notEqual(r1.name, r3.name);
+          assert.notEqual(r2.name, r3.name);
         });
     });
 
