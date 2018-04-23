@@ -95,5 +95,70 @@ describe("FCP5", function() {
     });
 
   });
+  describe("AudioClip instances", function() {
+
+    it("should have a frameRate property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clips = doc.sequences[0].audioTracks[0].clips;
+          clips.forEach((clip) => assert.equal(clip.frameRate, 25));
+        });
+    });
+
+    it("should know how to map frames to timecodes", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clip = doc.sequences[0].audioTracks[0].clips[0];
+
+          assert.equal(clip.toTimecode(0), "00:00:00.00");
+          assert.equal(clip.toTimecode(15), "00:00:00.15");
+          assert.equal(clip.toTimecode(19), "00:00:00.19");
+          assert.equal(clip.toTimecode(25), "00:00:01.00");
+          assert.equal(clip.toTimecode(25*59), "00:00:59.00");
+          assert.equal(clip.toTimecode(25*60*59), "00:59:00.00");
+          assert.equal(clip.toTimecode(25*60*60*59), "59:00:00.00");
+        });
+    });
+
+    it("should have a start property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clip = doc.sequences[0].audioTracks[0].clips[0];
+          assert.equal(clip.start, "00:00:00.00");
+        });
+    });
+
+    it("should have a length property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clip = doc.sequences[0].audioTracks[0].clips[0];
+          assert.equal(clip.length, "00:00:01.05");
+        });
+    });
+
+    it("should have a position property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clip = doc.sequences[0].audioTracks[0].clips[0];
+          assert.equal(clip.position, "00:00:00.19");
+        });
+    });
+
+    it("should have a (zero based) channel property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const tracks = doc.sequences[0].audioTracks;
+          assert.equal(tracks[0].clips[0].channel, 0);
+          assert.equal(tracks[1].clips[0].channel, 1);
+        });
+    });
+
+  });
 
 });
