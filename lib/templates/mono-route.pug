@@ -1,0 +1,387 @@
+<Route id="#{doc.newID()}" name="#{routeName}" default-type="audio" strict-io="1" active="1" denormal-protection="0" meter-point="MeterPostFader" meter-type="MeterPeak" saved-meter-point="MeterPostFader" mode="Normal">
+  <PresentationInfo order="1" flags="AudioTrack,OrderSet" color="2927117055"/>
+  <Controllable name="solo" id="#{doc.newID()}" flags="Toggle,RealTime" value="0" self-solo="0" soloed-by-upstream="0" soloed-by-downstream="0"/>
+  <Controllable name="solo-iso" id="#{doc.newID()}" flags="Toggle,RealTime" value="0" solo-isolated="0"/>
+  <Controllable name="solo-safe" id="#{doc.newID()}" flags="Toggle" value="0" solo-safe="0"/>
+  <IO name="#{routeName}" id="#{doc.newID()}" direction="Input" default-type="audio" user-latency="0">
+    <Port type="audio" name="#{routeName}/audio_in 1">
+      <Connection other="system:capture_1"/>
+    </Port>
+  </IO>
+  <IO name="#{routeName}" id="#{doc.newID()}" direction="Output" default-type="audio" user-latency="0">
+    <Port type="audio" name="#{routeName}/audio_out 1"/>
+  </IO>
+  <MuteMaster mute-point="PostFader,Listen,Main" muted="0"/>
+  <Controllable name="mute" id="#{doc.newID()}" flags="Toggle,RealTime" value="0"/>
+  <Controllable name="phase" id="#{doc.newID()}" flags="Toggle" value="0" phase-invert="00"/>
+  <Automation>
+    <AutomationList automation-id="solo" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+    <AutomationList automation-id="solo-iso" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+    <AutomationList automation-id="solo-safe" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+    <AutomationList automation-id="mute" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+    <AutomationList automation-id="rec-enable" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+    <AutomationList automation-id="rec-safe" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+    <AutomationList automation-id="phase" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+    <AutomationList automation-id="monitor" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+  </Automation>
+  <Pannable>
+    <Controllable name="pan-azimuth" id="#{doc.newID()}" flags="" value="0.5"/>
+    <Controllable name="pan-width" id="#{doc.newID()}" flags="" value="1"/>
+    <Controllable name="pan-elevation" id="#{doc.newID()}" flags="" value="0"/>
+    <Controllable name="pan-frontback" id="#{doc.newID()}" flags="" value="0"/>
+    <Controllable name="pan-lfe" id="#{doc.newID()}" flags="" value="0"/>
+    <Automation>
+      <AutomationList automation-id="pan-azimuth" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="pan-elevation" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="pan-width" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="pan-frontback" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="pan-lfe" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+    </Automation>
+  </Pannable>
+  <Processor id="#{doc.newID()}" name="Amp" active="1" user-latency="0" type="trim">
+    <Automation>
+      <AutomationList automation-id="trim" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+    </Automation>
+    <Controllable name="trimcontrol" id="#{doc.newID()}" flags="GainLike" value="1"/>
+  </Processor>
+  <Processor id="#{doc.newID()}" name="PRE" active="1" user-latency="0" type="ladspa" unique-id="9300" count="2" custom="0">
+    <Automation>
+      <AutomationList automation-id="parameter-0" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+    </Automation>
+    <ConfiguredInput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredInput>
+    <CustomSinks>
+      <Channels type="audio" count="1"/>
+    </CustomSinks>
+    <ConfiguredOutput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredOutput>
+    <PresetOutput/>
+    <InputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </InputMap-0>
+    <OutputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </OutputMap-0>
+    <ThruMap/>
+    <ladspa last-preset-uri="" last-preset-label="" parameter-changed-since-last-preset="0">
+      <Port number="0" value="0"/>
+    </ladspa>
+    <Controllable name="hidden" id="#{doc.newID()}" flags="" value="0" parameter="0"/>
+  </Processor>
+  <Processor id="#{doc.newID()}" name="EQ" active="1" user-latency="0" type="ladspa" unique-id="9399" count="1" custom="0">
+    <Automation>
+      <AutomationList automation-id="parameter-1" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-2" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-3" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-4" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-5" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-6" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-7" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-8" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-9" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-10" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-11" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-12" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-13" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-14" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+    </Automation>
+    <ConfiguredInput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredInput>
+    <CustomSinks>
+      <Channels type="audio" count="1"/>
+    </CustomSinks>
+    <ConfiguredOutput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredOutput>
+    <PresetOutput/>
+    <InputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </InputMap-0>
+    <OutputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </OutputMap-0>
+    <ThruMap/>
+    <ladspa last-preset-uri="" last-preset-label="" parameter-changed-since-last-preset="0">
+      <Port number="1" value="0"/>
+      <Port number="2" value="0"/>
+      <Port number="3" value="0"/>
+      <Port number="4" value="0"/>
+      <Port number="5" value="0"/>
+      <Port number="6" value="1"/>
+      <Port number="7" value="0.5"/>
+      <Port number="8" value="0.5"/>
+      <Port number="9" value="0.5"/>
+      <Port number="10" value="0.5"/>
+      <Port number="11" value="0.5"/>
+      <Port number="12" value="0.5"/>
+      <Port number="13" value="0.5"/>
+      <Port number="14" value="0.5"/>
+    </ladspa>
+    <Controllable name="EQ Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="1"/>
+    <Controllable name="Filt Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="2"/>
+    <Controllable name="Hi Bell Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="3"/>
+    <Controllable name="Lo Bell Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="4"/>
+    <Controllable name="HP Freq" id="#{doc.newID()}" flags="" value="0" parameter="5"/>
+    <Controllable name="LP Freq" id="#{doc.newID()}" flags="" value="1" parameter="6"/>
+    <Controllable name="Hi Freq" id="#{doc.newID()}" flags="" value="0.5" parameter="7"/>
+    <Controllable name="Hi Gain" id="#{doc.newID()}" flags="" value="0.5" parameter="8"/>
+    <Controllable name="Hi Mid Freq" id="#{doc.newID()}" flags="" value="0.5" parameter="9"/>
+    <Controllable name="Hi Mid Gain" id="#{doc.newID()}" flags="" value="0.5" parameter="10"/>
+    <Controllable name="Lo Mid Freq" id="#{doc.newID()}" flags="" value="0.5" parameter="11"/>
+    <Controllable name="Lo Mid Gain" id="#{doc.newID()}" flags="" value="0.5" parameter="12"/>
+    <Controllable name="Lo Freq" id="#{doc.newID()}" flags="" value="0.5" parameter="13"/>
+    <Controllable name="Lo Gain" id="#{doc.newID()}" flags="" value="0.5" parameter="14"/>
+  </Processor>
+  <Processor id="#{doc.newID()}" name="Comp" active="1" user-latency="0" type="ladspa" unique-id="9302" count="1" custom="0">
+    <Automation>
+      <AutomationList automation-id="parameter-1" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-2" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-3" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-4" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-5" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+    </Automation>
+    <ConfiguredInput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredInput>
+    <CustomSinks>
+      <Channels type="audio" count="1"/>
+    </CustomSinks>
+    <ConfiguredOutput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredOutput>
+    <PresetOutput/>
+    <InputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </InputMap-0>
+    <OutputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </OutputMap-0>
+    <ThruMap/>
+    <ladspa last-preset-uri="" last-preset-label="" parameter-changed-since-last-preset="0">
+      <Port number="1" value="0"/>
+      <Port number="2" value="0"/>
+      <Port number="3" value="0"/>
+      <Port number="4" value="0"/>
+      <Port number="5" value="0"/>
+    </ladspa>
+    <Controllable name="Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="1"/>
+    <Controllable name="Threshold" id="#{doc.newID()}" flags="" value="0" parameter="2"/>
+    <Controllable name="Speed" id="#{doc.newID()}" flags="" value="0" parameter="3"/>
+    <Controllable name="Mode" id="#{doc.newID()}" flags="" value="0" parameter="4"/>
+    <Controllable name="Makeup" id="#{doc.newID()}" flags="" value="0" parameter="5"/>
+  </Processor>
+  <Processor id="#{doc.newID()}" name="Amp" active="1" user-latency="0" type="amp">
+    <Automation>
+      <AutomationList automation-id="gain" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+    </Automation>
+    <Controllable name="gaincontrol" id="#{doc.newID()}" flags="GainLike" value="1"/>
+  </Processor>
+  <Processor id="#{doc.newID()}" name="POST" active="1" user-latency="0" type="ladspa" unique-id="9303" count="1" custom="0">
+    <Automation>
+      <AutomationList automation-id="parameter-1" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-2" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-3" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-4" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-5" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-6" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-7" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-8" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-9" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-10" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-11" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-12" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-13" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-14" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-15" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-16" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-17" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-18" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-19" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-20" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-21" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-22" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-23" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-24" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-25" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-26" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-27" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-28" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-29" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-30" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-31" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-32" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-33" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-34" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-35" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-36" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-37" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-38" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-39" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-40" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-41" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-42" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-43" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-44" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-45" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-46" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-47" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-48" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-49" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-50" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      <AutomationList automation-id="parameter-51" id="#{doc.newID()}" interpolation-style="Discrete" state="Off"/>
+      <AutomationList automation-id="parameter-52" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+    </Automation>
+    <ConfiguredInput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredInput>
+    <CustomSinks>
+      <Channels type="audio" count="1"/>
+    </CustomSinks>
+    <ConfiguredOutput>
+      <Channels type="audio" count="1"/>
+    </ConfiguredOutput>
+    <PresetOutput/>
+    <InputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </InputMap-0>
+    <OutputMap-0>
+      <Channelmap type="audio" from="0" to="0"/>
+    </OutputMap-0>
+    <ThruMap/>
+    <ladspa last-preset-uri="" last-preset-label="" parameter-changed-since-last-preset="1">
+      <Port number="1" value="1"/>
+      <Port number="2" value="0"/>
+      <Port number="3" value="0"/>
+      <Port number="4" value="0"/>
+      <Port number="5" value="0"/>
+      <Port number="6" value="0"/>
+      <Port number="7" value="0"/>
+      <Port number="8" value="0"/>
+      <Port number="9" value="0"/>
+      <Port number="10" value="0"/>
+      <Port number="11" value="0"/>
+      <Port number="12" value="0"/>
+      <Port number="13" value="0"/>
+      <Port number="14" value="0"/>
+      <Port number="15" value="0"/>
+      <Port number="16" value="0"/>
+      <Port number="17" value="0"/>
+      <Port number="18" value="0"/>
+      <Port number="19" value="1"/>
+      <Port number="20" value="0"/>
+      <Port number="21" value="0"/>
+      <Port number="22" value="0"/>
+      <Port number="23" value="0"/>
+      <Port number="24" value="0"/>
+      <Port number="25" value="0"/>
+      <Port number="26" value="0"/>
+      <Port number="27" value="0"/>
+      <Port number="28" value="0"/>
+      <Port number="29" value="0"/>
+      <Port number="30" value="0"/>
+      <Port number="31" value="0"/>
+      <Port number="32" value="0"/>
+      <Port number="33" value="0"/>
+      <Port number="34" value="0"/>
+      <Port number="35" value="0"/>
+      <Port number="36" value="0"/>
+      <Port number="37" value="0"/>
+      <Port number="38" value="0"/>
+      <Port number="39" value="0"/>
+      <Port number="40" value="0"/>
+      <Port number="41" value="0"/>
+      <Port number="42" value="0"/>
+      <Port number="43" value="0"/>
+      <Port number="44" value="0"/>
+      <Port number="45" value="0"/>
+      <Port number="46" value="0"/>
+      <Port number="47" value="0"/>
+      <Port number="48" value="0"/>
+      <Port number="49" value="0"/>
+      <Port number="50" value="0"/>
+      <Port number="51" value="0"/>
+      <Port number="52" value="0"/>
+    </ladspa>
+    <Controllable name="hidden" id="#{doc.newID()}" flags="" value="1" parameter="1"/>
+    <Controllable name="Pan" id="#{doc.newID()}" flags="" value="0" parameter="2"/>
+    <Controllable name="MB 1 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="3"/>
+    <Controllable name="MB 1 Level" id="#{doc.newID()}" flags="" value="0" parameter="4"/>
+    <Controllable name="MB 2 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="5"/>
+    <Controllable name="MB 2 Level" id="#{doc.newID()}" flags="" value="0" parameter="6"/>
+    <Controllable name="MB 3 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="7"/>
+    <Controllable name="MB 3 Level" id="#{doc.newID()}" flags="" value="0" parameter="8"/>
+    <Controllable name="MB 4 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="9"/>
+    <Controllable name="MB 4 Level" id="#{doc.newID()}" flags="" value="0" parameter="10"/>
+    <Controllable name="MB 5 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="11"/>
+    <Controllable name="MB 5 Level" id="#{doc.newID()}" flags="" value="0" parameter="12"/>
+    <Controllable name="MB 6 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="13"/>
+    <Controllable name="MB 6 Level" id="#{doc.newID()}" flags="" value="0" parameter="14"/>
+    <Controllable name="MB 7 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="15"/>
+    <Controllable name="MB 7 Level" id="#{doc.newID()}" flags="" value="0" parameter="16"/>
+    <Controllable name="MB 8 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="17"/>
+    <Controllable name="MB 8 Level" id="#{doc.newID()}" flags="" value="0" parameter="18"/>
+    <Controllable name="Master Assign" id="#{doc.newID()}" flags="Toggle" value="1" parameter="19"/>
+    <Controllable name="Sidechain Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="20"/>
+    <Controllable name="MB 9 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="21"/>
+    <Controllable name="MB 9 Level" id="#{doc.newID()}" flags="" value="0" parameter="22"/>
+    <Controllable name="MB 10 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="23"/>
+    <Controllable name="MB 10 Level" id="#{doc.newID()}" flags="" value="0" parameter="24"/>
+    <Controllable name="MB 11 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="25"/>
+    <Controllable name="MB 11 Level" id="#{doc.newID()}" flags="" value="0" parameter="26"/>
+    <Controllable name="MB 12 Assign" id="#{doc.newID()}" flags="Toggle" value="0" parameter="27"/>
+    <Controllable name="MB 12 Level" id="#{doc.newID()}" flags="" value="0" parameter="28"/>
+    <Controllable name="MB 1 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="29"/>
+    <Controllable name="MB 1 Pan" id="#{doc.newID()}" flags="" value="0" parameter="30"/>
+    <Controllable name="MB 2 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="31"/>
+    <Controllable name="MB 2 Pan" id="#{doc.newID()}" flags="" value="0" parameter="32"/>
+    <Controllable name="MB 3 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="33"/>
+    <Controllable name="MB 3 Pan" id="#{doc.newID()}" flags="" value="0" parameter="34"/>
+    <Controllable name="MB 4 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="35"/>
+    <Controllable name="MB 4 Pan" id="#{doc.newID()}" flags="" value="0" parameter="36"/>
+    <Controllable name="MB 5 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="37"/>
+    <Controllable name="MB 5 Pan" id="#{doc.newID()}" flags="" value="0" parameter="38"/>
+    <Controllable name="MB 6 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="39"/>
+    <Controllable name="MB 6 Pan" id="#{doc.newID()}" flags="" value="0" parameter="40"/>
+    <Controllable name="MB 7 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="41"/>
+    <Controllable name="MB 7 Pan" id="#{doc.newID()}" flags="" value="0" parameter="42"/>
+    <Controllable name="MB 8 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="43"/>
+    <Controllable name="MB 8 Pan" id="#{doc.newID()}" flags="" value="0" parameter="44"/>
+    <Controllable name="MB 9 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="45"/>
+    <Controllable name="MB 9 Pan" id="#{doc.newID()}" flags="" value="0" parameter="46"/>
+    <Controllable name="MB 10 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="47"/>
+    <Controllable name="MB 10 Pan" id="#{doc.newID()}" flags="" value="0" parameter="48"/>
+    <Controllable name="MB 11 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="49"/>
+    <Controllable name="MB 11 Pan" id="#{doc.newID()}" flags="" value="0" parameter="50"/>
+    <Controllable name="MB 12 Pan Enable" id="#{doc.newID()}" flags="Toggle" value="0" parameter="51"/>
+    <Controllable name="MB 12 Pan" id="#{doc.newID()}" flags="" value="0" parameter="52"/>
+  </Processor>
+  <Processor id="#{doc.newID()}" name="meter-#{routeName}" active="1" user-latency="0" type="meter"/>
+  <Processor id="#{doc.newID()}" name="#{routeName}" active="1" user-latency="0" own-input="1" own-output="0" output="#{routeName}" type="main-outs" role="Main">
+    <PannerShell bypassed="1" user-panner="" linked-to-route="1"/>
+    <Pannable>
+      <Controllable name="pan-azimuth" id="#{doc.newID()}" flags="" value="0.5"/>
+      <Controllable name="pan-width" id="#{doc.newID()}" flags="" value="1"/>
+      <Controllable name="pan-elevation" id="#{doc.newID()}" flags="" value="0"/>
+      <Controllable name="pan-frontback" id="#{doc.newID()}" flags="" value="0"/>
+      <Controllable name="pan-lfe" id="#{doc.newID()}" flags="" value="0"/>
+      <Automation>
+        <AutomationList automation-id="pan-azimuth" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+        <AutomationList automation-id="pan-elevation" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+        <AutomationList automation-id="pan-width" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+        <AutomationList automation-id="pan-frontback" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+        <AutomationList automation-id="pan-lfe" id="#{doc.newID()}" interpolation-style="Linear" state="Off"/>
+      </Automation>
+    </Pannable>
+  </Processor>
+  <Extra>
+    <mixbus mixbus-num="0"/>
+  </Extra>
+  <Slavable/>
+  <Controllable name="monitor" id="#{doc.newID()}" flags="RealTime" value="0" monitoring=""/>
+  <Controllable name="rec-safe" id="#{doc.newID()}" flags="Toggle,RealTime" value="0"/>
+  <Controllable name="rec-enable" id="#{doc.newID()}" flags="Toggle,RealTime" value="0"/>
+  <Diskstream flags="Recordable" playlist="#{routeName}.1" name="#{routeName}" id="#{doc.newID()}" speed="1" capture-alignment="Automatic" record-safe="0" channels="2"/>
+</Route>

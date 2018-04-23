@@ -415,6 +415,7 @@ describe("ArdourXML", function() {
       .then((doc) => {
         const r1 = doc.newStereoRoute('A');
         const r2 = doc.newStereoRoute('B');
+        const r3 = doc.newMonoRoute('C');
         const p11 = r1.playlist('A.1');
         const p12 = r1.playlist('A.2');
         const s0 = doc.source('/tmp/test.wav', 0);
