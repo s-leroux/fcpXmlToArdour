@@ -49,11 +49,11 @@ describe("ArdourXML", function() {
         .then(AXML.load)
         .then((doc) => {
           for(let i =0; i < 1000; ++i) {
-            const oldIDs = doc.ids.slice();
+            const oldIDs = new Set(doc.ids);
             const id = doc.newID();
 
-            assert.typeOf(id, 'Number');
-            assert.notProperty(oldIDs, id);
+            assert.typeOf(id, 'String');
+            assert(!oldIDs.has(id));
           }
         });
     });
@@ -62,9 +62,10 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          for(let i = 0; i < 50; ++i) {
+          for(let i = 0; i < 1000; ++i) {
             const id = doc.newID();
-            assert.containsAllKeys(doc.ids, [ id ]);
+
+            assert(doc.ids.has(id));
           }
         });
     });
@@ -164,11 +165,11 @@ describe("ArdourXML", function() {
         .then(AXML.load)
         .then((doc) => {
 
-          const oldIDs = new Map(doc.ids);
+          const oldIDs = new Set(doc.ids);
           const r1 = doc.newStereoRoute('A');
 
-          assert.containsAllKeys(doc.ids, [ r1.id ]);
-          assert.doesNotHaveAnyKeys(oldIDs, [ r1.id ]);
+          assert(doc.ids.has(r1.id));
+          assert(!oldIDs.has(r1.id));
         });
     });
 
