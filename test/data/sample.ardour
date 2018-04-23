@@ -68,7 +68,9 @@
     <Option name="meterbridge-label-height" value="0"/>
   </Config>
   <Metadata/>
-  <Sources/>
+  <Sources>
+    <Source name="test.wav" type="audio" flags="" id="4682" channel="0" origin="/tmp/test.wav" gain="1"/>
+  </Sources>
   <Regions/>
   <Selection>
     <StripableAutomationControl stripable="2560" control="0" order="0"/>

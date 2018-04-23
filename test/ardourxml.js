@@ -148,6 +148,112 @@ describe("ArdourXML", function() {
     });
 
   });
+  describe("source()", function() {
+
+    it("should find source by origin and channel", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const s = doc.source("/tmp/test.wav", 0);
+          assert.equal(s.id, 4682);
+          assert.equal(s.channel, 0);
+          assert.equal(s.origin, "/tmp/test.wav");
+        });
+    });
+
+    it("should create source on demand", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const oldSize  = doc.sources.size;
+          const s = doc.source("/tmp/test.wav", 0);
+          const s0 = doc.source("/tmp/test.wav", 1);
+          const s1 = doc.source('A.wav', 0);
+          const s2 = doc.source('A.wav', 1);
+          const s3 = doc.source('B.wav', 0);
+          const s4 = doc.source('B.wav', 1);
+
+          assert.equal(s.origin, '/tmp/test.wav');
+          assert.equal(s0.origin, '/tmp/test.wav');
+          assert.equal(s1.origin, 'A.wav');
+          assert.equal(s2.origin, 'A.wav');
+          assert.equal(s3.origin, 'B.wav');
+          assert.equal(s4.origin, 'B.wav');
+
+          assert.equal(s.channel, 0);
+          assert.equal(s0.channel, 1);
+          assert.equal(s1.channel, 0);
+          assert.equal(s2.channel, 1);
+          assert.equal(s3.channel, 0);
+          assert.equal(s4.channel, 1);
+          assert.equal(doc.sources.size, oldSize+5);
+        });
+    });
+
+
+  });
+  describe("Source instances", function() {
+
+    it("should have a name property", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const s = doc.source("/tmp/test.wav", 0);
+
+          assert.property(s, 'name');
+          assert.equal(s.name, "test.wav");
+        });
+    });
+
+    it("should have an id property", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const s = doc.source("/tmp/test.wav", 0);
+
+          assert.property(s, 'id');
+          assert.equal(s.id, 4682);
+        });
+    });
+
+    it("should have an origin property", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const s = doc.source("/tmp/test.wav", 0);
+
+          assert.property(s, 'origin');
+          assert.equal(s.origin, "/tmp/test.wav");
+        });
+    });
+
+    it("should have an channel property", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const s = doc.source("/tmp/test.wav", 0);
+
+          assert.property(s, 'channel');
+          assert.equal(s.channel, 0);
+        });
+    });
+
+    it("should infer name from origin", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          for(let path of [ "", "./", "./local/" ]) {
+            for(let basename of [ "file.wav", "file" ]) {
+              for(let channel of [ 0, 1 ]) {
+                const s = doc.source(path + basename, 0);
+                  assert.equal(s.name, basename);
+              }
+            }
+          }
+        });
+    });
+
+  });
   describe("Route instances", function() {
 
     it("should have a name property", function() {
