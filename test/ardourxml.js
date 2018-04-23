@@ -33,6 +33,33 @@ describe("ArdourXML", function() {
         });
     });
 
+    it("should have a sample rate property", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.property(doc,'sampleRate');
+          assert.equal(doc.sampleRate, 48000);
+        });
+    });
+
+    it("should have a frame rate property [get]", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.equal(doc.frameRate, 30);
+        });
+    });
+
+    it("should have a frame rate property [set]", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          doc.frameRate = 25;
+          assert.equal(doc.frameRate, 25);
+          assert.equal(doc.doc('Option[name="timecode-format"]').attr('value'), 'timecode_25');
+        });
+    });
+
     it("should gather document ids", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
