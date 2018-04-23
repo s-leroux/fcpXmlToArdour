@@ -81,5 +81,19 @@ describe("FCP5", function() {
     });
 
   });
+  describe("AudioTrack instances", function() {
+
+    it("should have a clips property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clips = doc.sequences[0].audioTracks[0].clips;
+          assert(clips instanceof Array);
+          assert.equal(clips.length, 4);
+          clips.forEach((item) => assert.equal(item.constructor.name, "AudioClip"));
+        });
+    });
+
+  });
 
 });
