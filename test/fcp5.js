@@ -25,6 +25,15 @@ describe("FCP5", function() {
         });
     });
 
+    it("should find files by id", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          assert.equal(doc.file("E30R21AU").origin, '/tmp/final/2/out25.mp4');
+          assert.equal(doc.file("E30R21CH").origin, '/tmp/final/2/exhale-sigh_fkHQMu4d.wav');
+        });
+    });
+
   });
   describe("the sequences property", function() {
 
@@ -149,13 +158,13 @@ describe("FCP5", function() {
         });
     });
 
-    it("should have a (zero based) channel property", function() {
+    it("should have a source property", function() {
       return fs.readFileAsync("test/data/sample.fcp5")
         .then(FCP5.load)
         .then((doc) => {
           const tracks = doc.sequences[0].audioTracks;
-          assert.equal(tracks[0].clips[0].channel, 0);
-          assert.equal(tracks[1].clips[0].channel, 1);
+          assert.deepEqual(tracks[0].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", 0]);
+          assert.deepEqual(tracks[1].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", 1]);
         });
     });
 
