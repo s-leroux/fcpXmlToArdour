@@ -321,6 +321,8 @@ describe("ArdourXML", function() {
         const r2 = doc.newStereoRoute('B');
         const p11 = r1.playlist('A.1');
         const p12 = r1.playlist('A.2');
+        const s0 = doc.source('test/in/file.wav', 0);
+        const s1 = doc.source('test/in/file.wav', 1);
         fs.writeFileAsync("test/out/two-tracks.ardour", doc)
       });
   });
