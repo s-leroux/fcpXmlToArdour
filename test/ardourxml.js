@@ -37,10 +37,7 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          assert.property(doc.ids, '55');
-          assert.property(doc.ids, '220');
-          assert.property(doc.ids, '2743');
-          assert.property(doc.ids, '2590');
+          assert.containsAllKeys(doc.ids, ['55', '220', '2743', '2590']);
         });
     });
 
@@ -65,9 +62,9 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          for(let i =0; i < 1000; ++i) {
+          for(let i = 0; i < 50; ++i) {
             const id = doc.newID();
-            assert.property(doc.ids, id);
+            assert.containsAllKeys(doc.ids, [ id ]);
           }
         });
     });
@@ -167,11 +164,11 @@ describe("ArdourXML", function() {
         .then(AXML.load)
         .then((doc) => {
 
-          const oldIDs = doc.ids.slice();
+          const oldIDs = new Map(doc.ids);
           const r1 = doc.newStereoRoute('A');
 
-          assert.notProperty(oldIDs, r1.id);
-          assert.property(doc.ids, r1.id);
+          assert.containsAllKeys(doc.ids, [ r1.id ]);
+          assert.doesNotHaveAnyKeys(oldIDs, [ r1.id ]);
         });
     });
 
@@ -180,11 +177,29 @@ describe("ArdourXML", function() {
         .then(AXML.load)
         .then((doc) => {
 
-          const oldIDs = doc.ids.slice();
           const route = doc.newStereoRoute('A');
           const playlist = route.playlist('A.1');
 
           assert.equal(playlist.name, 'A.1');
+        });
+    });
+
+    it("should create playlist on demand", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const route = doc.newStereoRoute('A');
+          const oldSize  = route.playlists.size;
+          const p1 = route.playlist('A.1');
+          const p2 = route.playlist('A.2');
+          const p3 = route.playlist('A.3');
+          const p4 = route.playlist('A.1');
+
+          assert.equal(p1.name, 'A.1');
+          assert.equal(p2.name, 'A.2');
+          assert.equal(p3.name, 'A.3');
+          assert.equal(p4.name, 'A.1');
+          assert.equal(route.playlists.size, oldSize+3);
         });
     });
 
