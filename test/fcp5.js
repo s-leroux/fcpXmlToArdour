@@ -34,6 +34,7 @@ describe("FCP5", function() {
         .then((doc) => {
           const sequences = doc.sequences;
           assert(sequences instanceof Array);
+          assert.equal(sequences.length, 1);
           sequences.forEach((item) => assert.equal(item.constructor.name, "Sequence"));
         });
     });
@@ -65,6 +66,17 @@ describe("FCP5", function() {
         .then((doc) => {
           const sequences = doc.sequences;
           assert(sequences[0].name, 'Sequence #1');
+        });
+    });
+
+    it("should have an audioTracks property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const audioTracks = doc.sequences[0].audioTracks;
+          assert(audioTracks instanceof Array);
+          assert.equal(audioTracks.length, 5);
+          audioTracks.forEach((item) => assert.equal(item.constructor.name, "AudioTrack"));
         });
     });
 
