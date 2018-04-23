@@ -69,6 +69,41 @@ describe("ArdourXML", function() {
     });
 
   });
+  describe("tcToSample()", function() {
+
+    it("should allows timecode string or number arguments", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          // dot-frame notation
+          assert.equal(doc.tcToSample("00:00:00.00"), doc.tcToSample(0, 0, 0, 0));
+          assert.equal(doc.tcToSample("00:00:00.15"), doc.tcToSample(0, 0, 0, 15));
+          assert.equal(doc.tcToSample("00:00:01.15"), doc.tcToSample(0, 0, 1, 15));
+          assert.equal(doc.tcToSample("00:02:01.15"), doc.tcToSample(0, 2, 1, 15));
+          assert.equal(doc.tcToSample("03:02:01.15"), doc.tcToSample(3, 2, 1, 15));
+
+          // colon notation
+          assert.equal(doc.tcToSample("00:00:00:00"), doc.tcToSample(0, 0, 0, 0));
+          assert.equal(doc.tcToSample("00:00:00:15"), doc.tcToSample(0, 0, 0, 15));
+          assert.equal(doc.tcToSample("00:00:01:15"), doc.tcToSample(0, 0, 1, 15));
+          assert.equal(doc.tcToSample("00:02:01:15"), doc.tcToSample(0, 2, 1, 15));
+          assert.equal(doc.tcToSample("03:02:01:15"), doc.tcToSample(3, 2, 1, 15));
+        });
+    });
+
+    it("should convert timecode to samples", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.equal(doc.tcToSample("00:00:00.00"), 0);
+          assert.equal(doc.tcToSample("00:00:00.15"), 24000);
+          assert.equal(doc.tcToSample("00:00:01.15"), 48000+24000);
+          assert.equal(doc.tcToSample("00:02:01.15"), 48000*2*60+48000+24000);
+          assert.equal(doc.tcToSample("03:02:01.15"), 48000*3*60*60+48000*2*60+48000+24000);
+        });
+    });
+
+  });
   describe("newID()", function() {
 
     it("should return a new unused id", function() {
