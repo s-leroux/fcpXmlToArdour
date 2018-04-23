@@ -192,6 +192,40 @@ describe("ArdourXML", function() {
 
 
   });
+  describe("makeRegion()", function() {
+
+    it("should returns a Region object", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const route = doc.newStereoRoute('A');
+          const playlist = route.playlist('A.1');
+          const s0 = doc.source('/tmp/test.wav', 0);
+          const s1 = doc.source('/tmp/test.wav', 1);
+          const region = playlist.makeRegion("R", 10,20,30,[ s0, s1 ]);
+
+          assert.equal(region.constructor.name, 'Region');
+        });
+    });
+
+    it("should properly set attributes on the new region", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const route = doc.newStereoRoute('A');
+          const playlist = route.playlist('A.1');
+          const s0 = doc.source('/tmp/test.wav', 0);
+          const s1 = doc.source('/tmp/test.wav', 1);
+          const region = playlist.makeRegion("R", 10,20,30,[ s0, s1 ]);
+
+          assert.equal(region.name, 'R');
+          assert.equal(region.start, 10);
+          assert.equal(region.length, 20);
+          assert.equal(region.position, 30);
+        });
+    });
+
+  });
   describe("Source instances", function() {
 
     it("should have a name property", function() {
@@ -321,8 +355,9 @@ describe("ArdourXML", function() {
         const r2 = doc.newStereoRoute('B');
         const p11 = r1.playlist('A.1');
         const p12 = r1.playlist('A.2');
-        const s0 = doc.source('test/in/file.wav', 0);
-        const s1 = doc.source('test/in/file.wav', 1);
+        const s0 = doc.source('/tmp/test.wav', 0);
+        const s1 = doc.source('/tmp/test.wav', 1);
+        const rg1 = p11.makeRegion('R', 10,20,30,[ s0, s1 ]);
         fs.writeFileAsync("test/out/two-tracks.ardour", doc)
       });
   });
