@@ -101,8 +101,21 @@ describe("FCP5", function() {
         .then((doc) => {
           const audioTracks = doc.sequences[0].audioTracks;
           assert(audioTracks instanceof Array);
-          assert.equal(audioTracks.length, 5);
-          audioTracks.forEach((item) => assert.equal(item.constructor.name, "AudioTrack"));
+          assert.equal(audioTracks.length, 3);
+          audioTracks.forEach((item) => assert.include(["AudioTrack", "VirtualStereoTrack"], item.constructor.name));
+        });
+    });
+
+    it("should merge compatible mono tracks as stereo", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const audioTracks = doc.sequences[0].audioTracks;
+          assert(audioTracks instanceof Array);
+          assert.equal(audioTracks.length, 3);
+          assert.equal(audioTracks[0].channels, 2);
+          assert.equal(audioTracks[1].channels, 2);
+          assert.equal(audioTracks[2].channels, 1);
         });
     });
 
@@ -116,7 +129,7 @@ describe("FCP5", function() {
           const clips = doc.sequences[0].audioTracks[0].clips;
           assert(clips instanceof Array);
           assert.equal(clips.length, 4);
-          clips.forEach((item) => assert.equal(item.constructor.name, "AudioClip"));
+          clips.forEach((item) => assert.include(["AudioClip", "VirtualStereoClip"], item.constructor.name));
         });
     });
 
@@ -189,8 +202,7 @@ describe("FCP5", function() {
         .then(FCP5.load)
         .then((doc) => {
           const tracks = doc.sequences[0].audioTracks;
-          assert.deepEqual(tracks[0].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", [0]]);
-          assert.deepEqual(tracks[1].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", [1]]);
+          assert.deepEqual(tracks[0].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", [0, 1]]);
         });
     });
 
@@ -214,9 +226,8 @@ describe("FCP5", function() {
       return fs.readFileAsync("test/data/sample.fcp5")
         .then(FCP5.load)
         .then((doc) => {
-          const clip1 = doc.sequences[0].audioTracks[0].clips[2];
-          const clip2 = doc.sequences[0].audioTracks[1].clips[2];
-          assert(FCP5.AudioClip.isStereoPair(clip1, clip2));
+          const type = doc.sequences[0].audioTracks[0].clips[2].constructor.name;
+          assert.equal(type, "VirtualStereoClip");
         });
     });
 
@@ -224,8 +235,8 @@ describe("FCP5", function() {
       return fs.readFileAsync("test/data/sample.fcp5")
         .then(FCP5.load)
         .then((doc) => {
-          const clip1 = doc.sequences[0].audioTracks[0].clips[1];
-          const clip2 = doc.sequences[0].audioTracks[1].clips[2];
+          const clip1 = doc.sequences[0].audioTracks[0].clips[0];
+          const clip2 = doc.sequences[0].audioTracks[0].clips[1];
           assert(!FCP5.AudioClip.isStereoPair(clip1, clip2));
         });
     });
@@ -237,9 +248,8 @@ describe("FCP5", function() {
       return fs.readFileAsync("test/data/sample.fcp5")
         .then(FCP5.load)
         .then((doc) => {
-          const track0 = doc.sequences[0].audioTracks[0];
-          const track1 = doc.sequences[0].audioTracks[1];
-          assert(FCP5.AudioTrack.isStereoPair(track0, track1));
+          const type = doc.sequences[0].audioTracks[0].constructor.name;
+          assert.equal(type, "VirtualStereoTrack");
         });
     });
 
