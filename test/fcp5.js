@@ -194,6 +194,15 @@ describe("FCP5", function() {
         });
     });
 
+    it("should have a levels property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const levels = doc.sequences[0].audioTracks[0].clips[2].levels;
+          assert.deepEqual(levels, [[0,1],[1,1],[26,.10000024],[30,.10000024]]);
+        });
+    });
+
   });
 
 });
