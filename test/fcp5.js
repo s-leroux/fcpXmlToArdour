@@ -194,16 +194,16 @@ describe("FCP5", function() {
         });
     });
 
-    it("should have a levels property", function() {
+    it("should have an envelope property", function() {
       return fs.readFileAsync("test/data/sample.fcp5")
         .then(FCP5.load)
         .then((doc) => {
-          const levels = doc.sequences[0].audioTracks[0].clips[2].levels;
-          assert.deepEqual(levels, [ ["00:00:00.00",1],
-                                     ["00:00:00.01",1],
-                                     ["00:00:01.01",.10000024],
-                                     ["00:00:01.05",.10000024],
-                                   ]);
+          const envelope = doc.sequences[0].audioTracks[0].clips[2].envelope;
+          assert.deepEqual(envelope, [ ["00:00:00.00",1],
+                                       ["00:00:00.01",1],
+                                       ["00:00:01.01",.10000024],
+                                       ["00:00:01.05",.10000024],
+                                     ]);
         });
     });
 

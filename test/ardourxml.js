@@ -352,6 +352,48 @@ describe("ArdourXML", function() {
         });
     });
 
+    it("should have an envelope property [get]", function() {
+      return fs.readFileAsync("test/data/envelope.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const region = doc.getRoute('jg-032316-sfx-footsteps-casual-shoes-on-rocks%L-L')
+                              .playlist('jg-032316-sfx-footsteps-casual-shoes-on-rocks%L-L')
+                              .region(1544);
+
+          assert.deepEqual(region.envelope, [[0, 0], [103680, 1], [798403, 0]]);
+        });
+    });
+
+    it("should have an envelope property [set, frame]", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const route = doc.newStereoRoute('A');
+          const playlist = route.playlist('A.1');
+          const s0 = doc.source('/tmp/test.wav', 0);
+          const s1 = doc.source('/tmp/test.wav', 1);
+          const region = playlist.makeRegion("R", "00:00:00.10","00:00:00.20","00:00:10.00",[ s0, s1 ]);
+
+          region.envelope = [[0,1], [25,0], [2500,1]];
+          assert.deepEqual(region.envelope, [[0,1], [25,0], [2500,1]]);
+        });
+    });
+
+    it("should have an envelope property [set, timecode]", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const route = doc.newStereoRoute('A');
+          const playlist = route.playlist('A.1');
+          const s0 = doc.source('/tmp/test.wav', 0);
+          const s1 = doc.source('/tmp/test.wav', 1);
+          const region = playlist.makeRegion("R", "00:00:00.10","00:00:00.20","00:00:10.00",[ s0, s1 ]);
+
+          region.envelope = [["00:00:00.00",1], ["00:00:01.00",0], ["00:01:40.00",1]];
+          assert.deepEqual(region.envelope, [[0,1], [48000,0], [4800000,1]]);
+        });
+    });
+
   });
   describe("Source instances", function() {
 
@@ -486,6 +528,7 @@ describe("ArdourXML", function() {
         const s0 = doc.source('/tmp/test.wav', 0);
         const s1 = doc.source('/tmp/test.wav', 1);
         const rg1 = p11.makeRegion('R', 10,20,30,[ s0, s1 ]);
+        rg1.envelope = [[0,0],[10,1],[15,.5]];
         fs.writeFileAsync("test/out/two-tracks.ardour", doc)
       });
   });
