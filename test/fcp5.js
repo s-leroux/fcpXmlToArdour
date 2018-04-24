@@ -199,7 +199,11 @@ describe("FCP5", function() {
         .then(FCP5.load)
         .then((doc) => {
           const levels = doc.sequences[0].audioTracks[0].clips[2].levels;
-          assert.deepEqual(levels, [[0,1],[1,1],[26,.10000024],[30,.10000024]]);
+          assert.deepEqual(levels, [ ["00:00:00.00",1],
+                                     ["00:00:00.01",1],
+                                     ["00:00:01.01",.10000024],
+                                     ["00:00:01.05",.10000024],
+                                   ]);
         });
     });
 
