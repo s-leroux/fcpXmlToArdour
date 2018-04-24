@@ -287,6 +287,23 @@ describe("ArdourXML", function() {
         });
     });
 
+    it("should accept timecodes", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          const route = doc.newStereoRoute('A');
+          const playlist = route.playlist('A.1');
+          const s0 = doc.source('/tmp/test.wav', 0);
+          const s1 = doc.source('/tmp/test.wav', 1);
+          const region = playlist.makeRegion("R", "00:00:00.10","00:00:00.20","00:00:10.00",[ s0, s1 ]);
+
+          assert.equal(region.name, 'R');
+          assert.equal(region.start, 10*48000/30);
+          assert.equal(region.length, 20*48000/30);
+          assert.equal(region.position, 10*30*48000/30);
+        });
+    });
+
   });
   describe("Source instances", function() {
 

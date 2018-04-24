@@ -131,6 +131,15 @@ describe("FCP5", function() {
         });
     });
 
+    it("should have a name property", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clip = doc.sequences[0].audioTracks[0].clips[0];
+          assert.equal(clip.name, "exhale-sigh_fkHQMu4d");
+        });
+    });
+
     it("should have a start property", function() {
       return fs.readFileAsync("test/data/sample.fcp5")
         .then(FCP5.load)
