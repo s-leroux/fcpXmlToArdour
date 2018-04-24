@@ -33,11 +33,42 @@ describe("ArdourXML", function() {
         });
     });
 
-    it("should have a sample rate property", function() {
+    it("should have a sample rate property [get]", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
           assert.property(doc,'sampleRate');
+          assert.equal(doc.sampleRate, 48000);
+        });
+    });
+
+    it("should have a sample rate property [set]", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          doc.sampleRate = 44100;
+          assert.equal(doc.sampleRate, 44100);
+        });
+    });
+
+    it("should reject non numeric sample rate", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.throws(() => { doc.sampleRate = "CD"; });
+          assert.equal(doc.sampleRate, 48000);
+        });
+    });
+
+    it("should reject non standard sample rates", function() {
+      return fs.readFileAsync("test/data/sample.ardour")
+        .then(AXML.load)
+        .then((doc) => {
+          assert.throws(() => { doc.sampleRate = 3333; });
+          assert.throws(() => { doc.sampleRate = 0; });
+          assert.throws(() => { doc.sampleRate = -96000; });
+          assert.throws(() => { doc.sampleRate = 96000.1; });
+          assert.throws(() => { doc.sampleRate = 4800000000; });
           assert.equal(doc.sampleRate, 48000);
         });
     });
