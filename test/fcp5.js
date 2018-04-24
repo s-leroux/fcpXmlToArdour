@@ -189,8 +189,8 @@ describe("FCP5", function() {
         .then(FCP5.load)
         .then((doc) => {
           const tracks = doc.sequences[0].audioTracks;
-          assert.deepEqual(tracks[0].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", 0]);
-          assert.deepEqual(tracks[1].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", 1]);
+          assert.deepEqual(tracks[0].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", [0]]);
+          assert.deepEqual(tracks[1].clips[0].source, ["/tmp/final/2/exhale-sigh_fkHQMu4d.wav", [1]]);
         });
     });
 
@@ -204,6 +204,52 @@ describe("FCP5", function() {
                                        ["00:00:01.01",.10000024],
                                        ["00:00:01.05",.10000024],
                                      ]);
+        });
+    });
+
+  });
+  describe("AudioClip.isStereoPair()", function() {
+
+    it("should detect potential stereo pairs", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clip1 = doc.sequences[0].audioTracks[0].clips[2];
+          const clip2 = doc.sequences[0].audioTracks[1].clips[2];
+          assert(FCP5.AudioClip.isStereoPair(clip1, clip2));
+        });
+    });
+
+    it("should reject non-matching pairs", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const clip1 = doc.sequences[0].audioTracks[0].clips[1];
+          const clip2 = doc.sequences[0].audioTracks[1].clips[2];
+          assert(!FCP5.AudioClip.isStereoPair(clip1, clip2));
+        });
+    });
+
+  });
+  describe("AudioTrack.isStereoPair()", function() {
+
+    it("should detect potential stereo pairs", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const track0 = doc.sequences[0].audioTracks[0];
+          const track1 = doc.sequences[0].audioTracks[1];
+          assert(FCP5.AudioTrack.isStereoPair(track0, track1));
+        });
+    });
+
+    it("should reject non-matching pairs", function() {
+      return fs.readFileAsync("test/data/sample.fcp5")
+        .then(FCP5.load)
+        .then((doc) => {
+          const track0 = doc.sequences[0].audioTracks[0];
+          const track1 = doc.sequences[0].audioTracks[3];
+          assert(!FCP5.AudioTrack.isStereoPair(track0, track1));
         });
     });
 

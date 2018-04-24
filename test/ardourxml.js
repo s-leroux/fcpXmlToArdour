@@ -264,7 +264,7 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          const s = doc.source("/tmp/test.wav", 0);
+          const s = doc.source("/tmp/test.wav", [0])[0];
           assert.equal(s.id, 4682);
           assert.equal(s.channel, 0);
           assert.equal(s.origin, "/tmp/test.wav");
@@ -276,12 +276,12 @@ describe("ArdourXML", function() {
         .then(AXML.load)
         .then((doc) => {
           const oldSize  = doc.sources.size;
-          const s = doc.source("/tmp/test.wav", 0);
-          const s0 = doc.source("/tmp/test.wav", 1);
-          const s1 = doc.source('A.wav', 0);
-          const s2 = doc.source('A.wav', 1);
-          const s3 = doc.source('B.wav', 0);
-          const s4 = doc.source('B.wav', 1);
+          const [s ] = doc.source("/tmp/test.wav", [0]);
+          const [s0] = doc.source("/tmp/test.wav", [1]);
+          const [s1] = doc.source('A.wav', [0]);
+          const [s2] = doc.source('A.wav', [1]);
+          const [s3] = doc.source('B.wav', [0]);
+          const [s4] = doc.source('B.wav', [1]);
 
           assert.equal(s.origin, '/tmp/test.wav');
           assert.equal(s0.origin, '/tmp/test.wav');
@@ -310,8 +310,8 @@ describe("ArdourXML", function() {
         .then((doc) => {
           const route = doc.newStereoRoute('A');
           const playlist = route.playlist('A.1');
-          const s0 = doc.source('/tmp/test.wav', 0);
-          const s1 = doc.source('/tmp/test.wav', 1);
+          const s0 = doc.source('/tmp/test.wav', [0]);
+          const s1 = doc.source('/tmp/test.wav', [1]);
           const region = playlist.makeRegion("R", 10,20,30,[ s0, s1 ]);
 
           assert.equal(region.constructor.name, 'Region');
@@ -324,8 +324,8 @@ describe("ArdourXML", function() {
         .then((doc) => {
           const route = doc.newStereoRoute('A');
           const playlist = route.playlist('A.1');
-          const s0 = doc.source('/tmp/test.wav', 0);
-          const s1 = doc.source('/tmp/test.wav', 1);
+          const s0 = doc.source('/tmp/test.wav', [0]);
+          const s1 = doc.source('/tmp/test.wav', [1]);
           const region = playlist.makeRegion("R", 10,20,30,[ s0, s1 ]);
 
           assert.equal(region.name, 'R');
@@ -341,8 +341,8 @@ describe("ArdourXML", function() {
         .then((doc) => {
           const route = doc.newStereoRoute('A');
           const playlist = route.playlist('A.1');
-          const s0 = doc.source('/tmp/test.wav', 0);
-          const s1 = doc.source('/tmp/test.wav', 1);
+          const s0 = doc.source('/tmp/test.wav', [0]);
+          const s1 = doc.source('/tmp/test.wav', [1]);
           const region = playlist.makeRegion("R", "00:00:00.10","00:00:00.20","00:00:10.00",[ s0, s1 ]);
 
           assert.equal(region.name, 'R');
@@ -370,8 +370,8 @@ describe("ArdourXML", function() {
         .then((doc) => {
           const route = doc.newStereoRoute('A');
           const playlist = route.playlist('A.1');
-          const s0 = doc.source('/tmp/test.wav', 0);
-          const s1 = doc.source('/tmp/test.wav', 1);
+          const s0 = doc.source('/tmp/test.wav', [0]);
+          const s1 = doc.source('/tmp/test.wav', [1]);
           const region = playlist.makeRegion("R", "00:00:00.10","00:00:00.20","00:00:10.00",[ s0, s1 ]);
 
           region.envelope = [[0,1], [25,0], [2500,1]];
@@ -385,8 +385,8 @@ describe("ArdourXML", function() {
         .then((doc) => {
           const route = doc.newStereoRoute('A');
           const playlist = route.playlist('A.1');
-          const s0 = doc.source('/tmp/test.wav', 0);
-          const s1 = doc.source('/tmp/test.wav', 1);
+          const s0 = doc.source('/tmp/test.wav', [0]);
+          const s1 = doc.source('/tmp/test.wav', [1]);
           const region = playlist.makeRegion("R", "00:00:00.10","00:00:00.20","00:00:10.00",[ s0, s1 ]);
 
           region.envelope = [["00:00:00.00",1], ["00:00:01.00",0], ["00:01:40.00",1]];
@@ -401,7 +401,7 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          const s = doc.source("/tmp/test.wav", 0);
+          const [s] = doc.source("/tmp/test.wav", [0]);
 
           assert.property(s, 'name');
           assert.equal(s.name, "test.wav");
@@ -412,7 +412,7 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          const s = doc.source("/tmp/test.wav", 0);
+          const [s] = doc.source("/tmp/test.wav", [0]);
 
           assert.property(s, 'id');
           assert.equal(s.id, 4682);
@@ -423,7 +423,7 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          const s = doc.source("/tmp/test.wav", 0);
+          const [s] = doc.source("/tmp/test.wav", [0]);
 
           assert.property(s, 'origin');
           assert.equal(s.origin, "/tmp/test.wav");
@@ -434,7 +434,7 @@ describe("ArdourXML", function() {
       return fs.readFileAsync("test/data/sample.ardour")
         .then(AXML.load)
         .then((doc) => {
-          const s = doc.source("/tmp/test.wav", 0);
+          const s = doc.source("/tmp/test.wav", [0])[0];
 
           assert.property(s, 'channel');
           assert.equal(s.channel, 0);
@@ -448,7 +448,7 @@ describe("ArdourXML", function() {
           for(let path of [ "", "./", "./local/" ]) {
             for(let basename of [ "file.wav", "file" ]) {
               for(let channel of [ 0, 1 ]) {
-                const s = doc.source(path + basename, 0);
+                const [s] = doc.source(path + basename, [0]);
                   assert.equal(s.name, basename);
               }
             }
@@ -525,8 +525,8 @@ describe("ArdourXML", function() {
         const r3 = doc.newMonoRoute('C');
         const p11 = r1.playlist('A.1');
         const p12 = r1.playlist('A.2');
-        const s0 = doc.source('/tmp/test.wav', 0);
-        const s1 = doc.source('/tmp/test.wav', 1);
+        const s0 = doc.source('/tmp/test.wav', [0]);
+        const s1 = doc.source('/tmp/test.wav', [1]);
         const rg1 = p11.makeRegion('R', 10,20,30,[ s0, s1 ]);
         rg1.envelope = [[0,0],[10,1],[15,.5]];
         fs.writeFileAsync("test/out/two-tracks.ardour", doc)
